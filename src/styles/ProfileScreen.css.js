@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 const profileScreenStyles = StyleSheet.create({
  container: {
   flex: 1,
-  backgroundColor: '#F3E8FF',
+  backgroundColor: 'white',
   padding: 20,
   justifyContent: 'center',
  },
@@ -32,9 +32,18 @@ const profileScreenStyles = StyleSheet.create({
  },
  button: {
   backgroundColor: '#857AFF',
-  padding: 16,
-  borderRadius: 10,
+  padding: 12,
+  borderRadius: 8,
   alignItems: 'center',
+ },
+ backButton: {
+  width: 40,
+  height: 40,
+  borderRadius: 20,
+  backgroundColor: '#E0E0E0',
+  justifyContent: 'center',
+  alignItems: 'center',
+  // marginBottom: 10,
  },
  buttonText: { color: 'white', fontWeight: 'bold', fontSize: 16 },
 });

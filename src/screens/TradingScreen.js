@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+ View,
+ Text,
+ TextInput,
+ TouchableOpacity,
+ StyleSheet,
+ Alert,
+} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import styles from '../styles/TradingScreen.css'; // updated style file
+import { Ionicons } from '@expo/vector-icons';
+import styles from '../styles/TradingScreen.css';
+
 
 export default function TradingScreen({ navigation, route }) {
  const { profileData } = route.params || {};
@@ -11,7 +20,7 @@ export default function TradingScreen({ navigation, route }) {
 
  const handleNext = () => {
   if (!trading_categories || !broker) {
-   alert('Please fill all required fields');
+   Alert.alert('Error', 'Please fill all required fields');
    return;
   }
 
@@ -19,7 +28,7 @@ export default function TradingScreen({ navigation, route }) {
    ...profileData,
    trading_categories,
    refer_id,
-   broker
+   broker,
   };
 
   navigation.navigate('UploadAadhar', { formData: finalData });
@@ -27,14 +36,21 @@ export default function TradingScreen({ navigation, route }) {
 
  return (
   <View style={styles.container}>
-   <Text style={styles.title}>Profile</Text>
-   <View style={styles.card}>
+   {/* Back Icon */}
+   <Text style={styles.title}>
+    <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+     <Ionicons name="chevron-back" size={24} color="black" />
+    </TouchableOpacity>
+    Profile</Text>
 
+   <Text style={styles.title}>Trading Details</Text>
+
+   <View style={styles.card}>
     <Text style={styles.label}>Trading Categories</Text>
     <View style={styles.pickerWrapper}>
      <Picker
       selectedValue={trading_categories}
-      onValueChange={value => setTradingCategories(value)}
+      onValueChange={(value) => setTradingCategories(value)}
       style={styles.picker}
      >
       <Picker.Item label="Select" value="" />
@@ -55,7 +71,7 @@ export default function TradingScreen({ navigation, route }) {
     <View style={styles.pickerWrapper}>
      <Picker
       selectedValue={broker}
-      onValueChange={value => setBroker(value)}
+      onValueChange={(value) => setBroker(value)}
       style={styles.picker}
      >
       <Picker.Item label="Select" value="" />

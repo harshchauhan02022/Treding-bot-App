@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
 import styles from '../styles/LoginScreen.css';
-
 
 export default function LoginScreen({ navigation }) {
  const [mobileNumber, setMobileNumber] = useState('');
@@ -42,23 +41,3 @@ export default function LoginScreen({ navigation }) {
   </View>
  );
 }
-
-// const styles = StyleSheet.create({
-//  container: { flex: 1, backgroundColor: '#F3E8FF', justifyContent: 'center', alignItems: 'center' },
-//  card: { width: '90%', backgroundColor: 'white', padding: 20, borderRadius: 12, elevation: 4 },
-//  label: { fontSize: 16, marginBottom: 10 },
-//  input: {
-//   borderWidth: 1,
-//   borderColor: '#ccc',
-//   borderRadius: 8,
-//   padding: 12,
-//   marginBottom: 20,
-//  },
-//  button: {
-//   backgroundColor: '#857AFF',
-//   paddingVertical: 14,
-//   borderRadius: 8,
-//   alignItems: 'center',
-//  },
-//  buttonText: { color: 'white', fontWeight: 'bold' },
-// });

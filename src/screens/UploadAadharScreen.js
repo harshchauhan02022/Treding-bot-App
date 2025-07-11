@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import axios from 'axios';
+import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/UploadAadharScreen.css';
-
+{/* <Image source={require('../../assets/cloud-upload.png')} style={styles.uploadIcon} /> */}
+import {
+ View,
+ Text,
+ TouchableOpacity,
+ Alert,
+ Image,
+} from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function UploadAadharScreen({ route, navigation }) {
  const { formData } = route.params || {};
@@ -18,41 +24,55 @@ export default function UploadAadharScreen({ route, navigation }) {
    quality: 1,
   });
 
-  if (!result.canceled) {
+  if (!result.canceled && result.assets[0].uri) {
    setImage(result.assets[0].uri);
   }
  };
 
- const handleSubmit = async () => {
-  if (!frontImage || !backImage) return Alert.alert('Error', 'Upload both images');
+ const handleContinue = () => {
+  if (!frontImage || !backImage) {
+   return Alert.alert('Error', 'Please upload both Aadhar front and back images');
+  }
 
-  const finalSubmission = {
+  const combinedForm = {
    ...formData,
    aadhar_front: frontImage,
    aadhar_back: backImage,
   };
 
-  try {
-   const res = await axios.post('http://<YOUR_IP>:5000/api/users/register', finalSubmission);
-   Alert.alert('Success', 'Registration complete');
-   navigation.popToTop(); // Go back to home
-  } catch (err) {
-   console.error(err);
-   Alert.alert('Error', err.response?.data?.error || 'Failed to register');
-  }
+  navigation.navigate('AddBroker', { combinedForm });
  };
 
  return (
   <View style={styles.container}>
+   {/* Back Button */}
+   <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+    <Ionicons name="chevron-back" size={24} color="black" />
+   </TouchableOpacity>
+
    <Text style={styles.title}>Upload Aadhaar Card</Text>
+
    <View style={styles.card}>
     <TouchableOpacity style={styles.uploadBox} onPress={() => pickImage(setFrontImage)}>
-     <Text>{frontImage ? 'Front Uploaded' : 'Upload Front Side'}</Text>
+     {frontImage ? (
+      <Image source={{ uri: frontImage }} style={styles.previewImage} />
+     ) : (
+      <Image source={require('../../assets/cloud-upload.png')} style={styles.uploadIcon} />
+     )}
+     <Text style={styles.uploadText}>Upload Front Side</Text>
     </TouchableOpacity>
+
     <TouchableOpacity style={styles.uploadBox} onPress={() => pickImage(setBackImage)}>
-     <Text>{backImage ? 'Back Uploaded' : 'Upload Back Side'}</Text>
+     {backImage ? (
+      <Image source={{ uri: backImage }} style={styles.previewImage} />
+     ) : (
+      <Image source={require('../../assets/cloud-upload.png')} style={styles.uploadIcon} />
+     )}
+     <Text style={styles.uploadText}>Upload Back Side</Text>
     </TouchableOpacity>
-    <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+
+
+    <TouchableOpacity style={styles.button} onPress={handleContinue}>
      <Text style={styles.buttonText}>Complete</Text>
     </TouchableOpacity>
    </View>
